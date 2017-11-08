@@ -135,4 +135,25 @@ defmodule Lists do
   defp compress([h | t], parts) do
     compress(t, [h | parts])
   end
+
+  @doc """
+  Pack consecutive duplicates of list elements into sublists.
+
+  If a list contains repeated elements they should be placed in separate sublists.
+
+    iex> Lists.pack([:a, :a, :a, :a, :b, :c, :c, :a, :a, :d, :e, :e, :e, :e])
+    [[:a, :a, :a, :a], [:b], [:c, :c], [:a, :a], [:d], [:e, :e, :e, :e]]
+  """
+  def pack(my_list), do: pack(my_list, [])
+
+  defp pack([], acc), do: reverse(acc)
+
+  defp pack([h | t], [head_of_acc = [h | _] | tail_of_acc]) do
+    new_head_of_acc = [h | head_of_acc]
+    pack(t, [new_head_of_acc | tail_of_acc])
+  end
+
+  defp pack([h | t], acc) do
+    pack(t, [[h] | acc])
+  end
 end
