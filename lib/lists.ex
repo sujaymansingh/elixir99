@@ -114,4 +114,25 @@ defmodule Lists do
   defp flatten([h | t], acc) do
     flatten(t, [h | acc])
   end
+
+  @doc """
+  Eliminate consecutive duplicates of list elements.
+
+  If a list contains repeated elements they should be replaced with a single copy of the element. The order of the
+  elements should not be changed.
+
+    iex> Lists.compress([:a, :a, :a, :a, :b, :c, :c, :a, :a, :d, :e, :e, :e, :e])
+    [:a, :b, :c, :a, :d, :e]
+  """
+  def compress(my_list), do: compress(my_list, [])
+
+  defp compress([], parts), do: reverse(parts)
+
+  defp compress([h | t], [h | other_parts]) do
+    compress(t, [h | other_parts])
+  end
+
+  defp compress([h | t], parts) do
+    compress(t, [h | parts])
+  end
 end
