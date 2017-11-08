@@ -167,8 +167,7 @@ defmodule Lists do
     [{4, :a}, {1, :b}, {2, :c}, {2, :a}, {1, :d}, {4, :e}]
   """
   def encode(my_list) do
-    packed = pack(my_list)
-    count_each(packed, [])
+    my_list |> pack |> count_each([])
   end
 
   defp count_each([], acc), do: reverse(acc)
