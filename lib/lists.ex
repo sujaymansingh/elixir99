@@ -178,4 +178,21 @@ defmodule Lists do
     counted = {len(sublist), h}
     count_each(others, [counted | acc])
   end
+
+  @doc """
+  Modified run-length encoding.
+
+  Modify the result of problem 1.10 in such a way that if an element has no duplicates it is simply copied into the
+  result list. Only elements with duplicates are transferred as [N,E] terms.
+    
+    iex> Lists.encode_modified([:a, :a, :a, :a, :b, :c, :c, :a, :a, :d, :e, :e, :e, :e])
+    [{4, :a}, :b, {2, :c}, {2, :a}, :d, {4, :e}]
+  """
+  def encode_modified(my_list) do
+    my_list |> pack |> count_each([]) |> simplify_if_single([])
+  end
+
+  defp simplify_if_single([], acc), do: reverse(acc)
+  defp simplify_if_single([{1, x} | t], acc), do: simplify_if_single(t, [x | acc])
+  defp simplify_if_single([y | t], acc), do: simplify_if_single(t, [y | acc])
 end
