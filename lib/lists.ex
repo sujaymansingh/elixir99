@@ -34,4 +34,14 @@ defmodule Lists do
   def element_at([_, h1 | t], n) when n > 1 do
     element_at([h1 | t], n - 1)
   end
+
+  @doc """
+  Find the number of elements of a list.
+
+    iex> Lists.len([:a, :b, :c])
+    3
+  """
+  def len(my_list), do: len(my_list, 0)
+  defp len([], acc), do: acc
+  defp len([_ | t], acc), do: len(t, acc + 1)
 end
