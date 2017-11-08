@@ -167,17 +167,10 @@ defmodule Lists do
     [{4, :a}, {1, :b}, {2, :c}, {2, :a}, {1, :d}, {4, :e}]
   """
   def encode(my_list) do
-    my_list |> pack |> count_each([])
+    my_list |> pack |> Enum.map(&count/1)
   end
 
-  defp count_each([], acc), do: reverse(acc)
-
-  defp count_each([sublist | others], acc) do
-    # We're assuming that h has only one type of element.
-    [h | _] = sublist
-    counted = {len(sublist), h}
-    count_each(others, [counted | acc])
-  end
+  defp count(some_list = [h | _]), do: {length(some_list), h}
 
   @doc """
   Modified run-length encoding.
@@ -189,10 +182,12 @@ defmodule Lists do
     [{4, :a}, :b, {2, :c}, {2, :a}, :d, {4, :e}]
   """
   def encode_modified(my_list) do
-    my_list |> pack |> count_each([]) |> simplify_if_single([])
+    my_list |> pack |> Enum.map(&count/1) |> Enum.map(&simplify_if_single/1)
   end
 
-  defp simplify_if_single([], acc), do: reverse(acc)
-  defp simplify_if_single([{1, x} | t], acc), do: simplify_if_single(t, [x | acc])
-  defp simplify_if_single([y | t], acc), do: simplify_if_single(t, [y | acc])
+  defp simplify_if_single({1, x}), do: x
+  defp simplify_if_single(y), do: y
+
+  end
+
 end
