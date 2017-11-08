@@ -266,4 +266,41 @@ defmodule Lists do
   defp split([h | t], n, part_1_reversed) do
     split(t, n, [h | part_1_reversed])
   end
+
+  @doc """
+  Extract a slice from a list.
+
+  Given two indices, I and K, the slice is the list containing the elements between the I'th and K'th element of the
+  original list (both limits included).
+  Start counting the elements with 1.
+
+    iex> Lists.slice([:a, :b, :c, :d, :e, :f, :g, :h, :i, :j, :k], 3, 7)
+    [:c, :d, :e, :f, :g]
+  """
+  def slice(my_list, start_idx, end_idx) when start_idx < 1 do
+    slice(my_list, 1, end_idx)
+  end
+
+  def slice(my_list, start_idx, end_idx) when end_idx > length(my_list) do
+    slice(my_list, start_idx, length(my_list))
+  end
+
+  def slice(my_list, start_idx, end_idx) do
+    slice(my_list, start_idx, end_idx, 1, [])
+  end
+
+  defp slice(_, _, end_idx, i, acc) when i > end_idx do
+    # We're done slicing!
+    reverse(acc)
+  end
+
+  defp slice([_ | t], start_idx, end_idx, i, acc) when i < start_idx do
+    # We haven't yet started slicing!
+    slice(t, start_idx, end_idx, i + 1, acc)
+  end
+
+  defp slice([h | t], start_idx, end_idx, i, acc) do
+    # We must be in the middle of slicing!
+    slice(t, start_idx, end_idx, i + 1, [h | acc])
+  end
 end

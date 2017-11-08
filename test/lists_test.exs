@@ -30,4 +30,9 @@ defmodule ListsTest do
   test "splitting on zero should result in {[], list}" do
     assert Lists.split([:a, :b, :c, :d], 0) == {[], [:a, :b, :c, :d]}
   end
+
+  test "slicing past the end shouldn't break" do
+    assert Lists.slice([:a, :b, :c], -1, 2) == [:a, :b]
+    assert Lists.slice([:a, :b, :c], 2, 10) == [:b, :c]
+  end
 end
