@@ -44,4 +44,14 @@ defmodule Lists do
   def len(my_list), do: len(my_list, 0)
   defp len([], acc), do: acc
   defp len([_ | t], acc), do: len(t, acc + 1)
+
+  @doc """
+  Reverse a list.
+
+    iex> Lists.reverse([:a, :b, :c])
+    [:c, :b, :a]
+  """
+  def reverse(my_list), do: reverse(my_list, [])
+  defp reverse([], acc), do: acc
+  defp reverse([h | t], acc), do: reverse(t, [h | acc])
 end

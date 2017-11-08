@@ -9,4 +9,8 @@ defmodule ListsTest do
   test "len works with empty list as well" do
     assert Lists.len([]) == 0
   end
+
+  test "reverse an empty list gives an empty list" do
+    assert Lists.reverse([]) == []
+  end
 end
