@@ -156,4 +156,27 @@ defmodule Lists do
   defp pack([h | t], acc) do
     pack(t, [[h] | acc])
   end
+
+  @doc """
+  Run-length encoding of a list.
+
+  Use the result of problem 1.09 to implement the so-called run-length encoding data compression method.
+  Consecutive duplicates of elements are encoded as terms [N,E] where N is the number of duplicates of the element E.
+
+    iex> Lists.encode([:a, :a, :a, :a, :b, :c, :c, :a, :a, :d, :e, :e, :e, :e])
+    [{4, :a}, {1, :b}, {2, :c}, {2, :a}, {1, :d}, {4, :e}]
+  """
+  def encode(my_list) do
+    packed = pack(my_list)
+    count_each(packed, [])
+  end
+
+  defp count_each([], acc), do: reverse(acc)
+
+  defp count_each([sublist | others], acc) do
+    # We're assuming that h has only one type of element.
+    [h | _] = sublist
+    counted = {len(sublist), h}
+    count_each(others, [counted | acc])
+  end
 end
