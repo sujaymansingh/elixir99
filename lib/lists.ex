@@ -352,4 +352,17 @@ defmodule Lists do
     {start_list, end_list} = split(my_list, index - 1)
     start_list ++ [item | end_list]
   end
+
+  @doc """
+  Create a list containing all integers within a given range.
+
+    iex> Lists.range(4, 9)
+    [4, 5, 6, 7, 8, 9]
+  """
+  def range(i, j) when i < j do
+    range(i, j, [])
+  end
+
+  defp range(i, j, acc) when i > j, do: reverse(acc)
+  defp range(i, j, acc), do: range(i + 1, j, [i | acc])
 end
