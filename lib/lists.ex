@@ -322,4 +322,23 @@ defmodule Lists do
     {part_1, part_2} = split(my_list, n)
     part_2 ++ part_1
   end
+
+  @doc """
+  Remove the K'th element from a list.
+
+    iex> Lists.remove_at([:a, :b, :c, :d], 2)
+    {:b, [:a, :c, :d]}
+  """
+  def remove_at(my_list, n) do
+    remove_at(my_list, [], n, 1)
+  end
+
+  defp remove_at([h | t], acc, n, n) do
+    new_list = reverse(acc) ++ t
+    {h, new_list}
+  end
+
+  defp remove_at([h | t], acc, n, i) when i < n do
+    remove_at(t, [h | acc], n, i + 1)
+  end
 end
