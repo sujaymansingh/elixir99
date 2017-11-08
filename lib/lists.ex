@@ -341,4 +341,15 @@ defmodule Lists do
   defp remove_at([h | t], acc, n, i) when i < n do
     remove_at(t, [h | acc], n, i + 1)
   end
+
+  @doc """
+  Insert an element at a given position into a list.
+
+    iex> Lists.insert_at(:alfa, [:a, :b, :c, :d], 2)
+    [:a, :alfa, :b, :c, :d]
+  """
+  def insert_at(item, my_list, index) do
+    {start_list, end_list} = split(my_list, index - 1)
+    start_list ++ [item | end_list]
+  end
 end
