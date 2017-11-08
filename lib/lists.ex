@@ -229,4 +229,16 @@ defmodule Lists do
     |> Enum.map(fn item -> repeat({n, item}) end)
     |> flatten
   end
+
+  @doc """
+  Drop every N'th element from a list.
+
+    iex> Lists.drop([:a, :b, :c, :d, :e, :f, :g, :h, :i, :k], 3)
+    [:a, :b, :d, :e, :g, :h, :k]
+  """
+  def drop(my_list, n), do: drop(my_list, n, 1, [])
+
+  defp drop([], _, _, acc), do: reverse(acc)
+  defp drop([_ | t], n, n, acc), do: drop(t, n, 1, acc)
+  defp drop([h | t], n, i, acc), do: drop(t, n, i + 1, [h | acc])
 end
