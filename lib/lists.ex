@@ -303,4 +303,23 @@ defmodule Lists do
     # We must be in the middle of slicing!
     slice(t, start_idx, end_idx, i + 1, [h | acc])
   end
+
+  @doc """
+  Rotate a list N places to the left.
+
+    iex> Lists.rotate([:a, :b, :c, :d, :e, :f, :g, :h], 3)
+    [:d, :e, :f, :g, :h, :a, :b, :c]
+
+    iex> Lists.rotate([:a, :b, :c, :d, :e, :f, :g, :h], -2)
+    [:g, :h, :a, :b, :c, :d, :e, :f]
+  """
+  def rotate(my_list, n) when n < 0 do
+    positive_n = length(my_list) + n
+    rotate(my_list, positive_n)
+  end
+
+  def rotate(my_list, n) do
+    {part_1, part_2} = split(my_list, n)
+    part_2 ++ part_1
+  end
 end

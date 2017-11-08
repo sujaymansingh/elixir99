@@ -35,4 +35,8 @@ defmodule ListsTest do
     assert Lists.slice([:a, :b, :c], -1, 2) == [:a, :b]
     assert Lists.slice([:a, :b, :c], 2, 10) == [:b, :c]
   end
+
+  test "rotating by zero should return the same list" do
+    assert Lists.rotate([:a, :b, :c], 0) == [:a, :b, :c]
+  end
 end
