@@ -22,4 +22,12 @@ defmodule ListsTest do
     assert Lists.is_palindrome([:x, :a, :m, :a, :b]) == false
     assert Lists.is_palindrome([]) == false
   end
+
+  test "splitting should still work if the list is too small" do
+    assert Lists.split([:a, :b, :c], 100) == {[:a, :b, :c], []}
+  end
+
+  test "splitting on zero should result in {[], list}" do
+    assert Lists.split([:a, :b, :c, :d], 0) == {[], [:a, :b, :c, :d]}
+  end
 end

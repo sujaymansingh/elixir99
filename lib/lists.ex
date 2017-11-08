@@ -241,4 +241,29 @@ defmodule Lists do
   defp drop([], _, _, acc), do: reverse(acc)
   defp drop([_ | t], n, n, acc), do: drop(t, n, 1, acc)
   defp drop([h | t], n, i, acc), do: drop(t, n, i + 1, [h | acc])
+
+  @doc """
+  Split a list into two parts; the length of the first part is given.
+
+  Do not use any predefined predicates.
+
+    iex> Lists.split([:a, :b, :c, :d, :e, :f, :g, :h, :i, :j, :k], 3)
+    {[:a, :b, :c], [:d, :e, :f, :g, :h, :i, :j, :k]}
+  """
+  def split(my_list, n) when length(my_list) <= n do
+    {my_list, []}
+  end
+
+  def split(my_list, n) when n >= 0 do
+    split(my_list, n, [])
+  end
+
+  defp split(part_2, n, part_1_reversed) when length(part_1_reversed) == n do
+    part_1 = part_1_reversed |> reverse
+    {part_1, part_2}
+  end
+
+  defp split([h | t], n, part_1_reversed) do
+    split(t, n, [h | part_1_reversed])
+  end
 end
