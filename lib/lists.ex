@@ -215,14 +215,18 @@ defmodule Lists do
   defp repeat(n, x, acc), do: repeat(n - 1, x, [x | acc])
 
   @doc """
-  Duplicate the elements of a list.
+  Duplicate the elements of a list N times (default N = 2)
 
     iex> Lists.duplicate([:a, :b, :c, :c, :d])
     [:a, :a, :b, :b, :c, :c, :c, :c, :d, :d]
+    iex> Lists.duplicate([:a, :b, :c, :c, :d], 3)
+    [:a, :a, :a, :b, :b, :b, :c, :c, :c, :c, :c, :c, :d, :d, :d]
   """
-  def duplicate(my_list) do
-    my_list |> Enum.map(&duplicate_item/1) |> flatten
-  end
+  def duplicate(my_list), do: duplicate(my_list, 2)
 
-  defp duplicate_item(x), do: [x, x]
+  def duplicate(my_list, n) do
+    my_list
+    |> Enum.map(fn item -> repeat({n, item}) end)
+    |> flatten
+  end
 end
