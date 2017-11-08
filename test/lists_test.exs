@@ -13,4 +13,13 @@ defmodule ListsTest do
   test "reverse an empty list gives an empty list" do
     assert Lists.reverse([]) == []
   end
+
+  test "identify palindromes correctly" do
+    assert Lists.is_palindrome([:x, :a, :m, :a, :x]) == true
+    assert Lists.is_palindrome([:x, :a, :a, :x]) == true
+
+    assert Lists.is_palindrome([:x, :a, :m, :a]) == false
+    assert Lists.is_palindrome([:x, :a, :m, :a, :b]) == false
+    assert Lists.is_palindrome([]) == false
+  end
 end
