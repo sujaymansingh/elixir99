@@ -90,4 +90,28 @@ defmodule Lists do
   end
 
   defp is_palindrome(_, _), do: false
+
+  @doc """
+  Flatten a nested list structure.
+
+  Transform a list, possibly holding lists as elements into a 'flat' list by replacing each list with its
+  elements (recursively).
+
+    iex> Lists.flatten([:a, [:b, [:c, :d], :e]])
+    [:a, :b, :c, :d, :e]
+  """
+  def flatten(x) when is_list(x) do
+    flatten(x, [])
+  end
+
+  defp flatten([], acc), do: reverse(acc)
+
+  defp flatten([h | t], acc) when is_list(h) do
+    new_input = flatten(h) ++ t
+    flatten(new_input, acc)
+  end
+
+  defp flatten([h | t], acc) do
+    flatten(t, [h | acc])
+  end
 end
