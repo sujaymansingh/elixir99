@@ -188,6 +188,29 @@ defmodule Lists do
   defp simplify_if_single({1, x}), do: x
   defp simplify_if_single(y), do: y
 
+  @doc """
+  Decode a modified run-length encoding.
+
+  Given a run-length code list generated as specified in problem 1.11. Construct its uncompressed version.
+
+    iex> Lists.decode_modified([{4, :a}, :b, {2, :c}, {2, :a}, :d, {4, :e}])
+    [:a, :a, :a, :a, :b, :c, :c, :a, :a, :d, :e, :e, :e, :e]
+  """
+  def decode_modified(my_list) do
+    my_list |> Enum.map(&repeat/1) |> flatten
   end
 
+  @doc """
+  Given {n, x} return a list of n items, each item being x
+
+    iex> Lists.repeat({4, :x})
+    [:x, :x, :x, :x]
+    iex> Lists.repeat(:y)
+    :y
+  """
+  def repeat({n, x}) when x > 0, do: repeat(n, x, [])
+  def repeat(something_else), do: something_else
+
+  defp repeat(0, _, acc), do: acc
+  defp repeat(n, x, acc), do: repeat(n - 1, x, [x | acc])
 end
