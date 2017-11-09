@@ -2,6 +2,8 @@ defmodule ListsTest do
   use ExUnit.Case, async: true
   doctest Lists
 
+  import Mock
+
   test "element_at position 4 in list" do
     assert Lists.element_at([:a, :b, :c, :d], 4) == :d
   end
@@ -38,5 +40,13 @@ defmodule ListsTest do
 
   test "rotating by zero should return the same list" do
     assert Lists.rotate([:a, :b, :c], 0) == [:a, :b, :c]
+  end
+
+  test "randomly select from a list" do
+    with_mocks [{Random, [], [random: fn a.._ -> a end]}] do
+      # We've mocked random to always return the lower bound of the range.
+      # Thus the first item will be chosen each time.
+      assert Lists.rnd_select([:a, :b, :c, :d], 2) == [:b, :a]
+    end
   end
 end

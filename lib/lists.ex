@@ -365,4 +365,21 @@ defmodule Lists do
 
   defp range(i, j, acc) when i > j, do: reverse(acc)
   defp range(i, j, acc), do: range(i + 1, j, [i | acc])
+
+  @doc """
+  Extract a given number of randomly selected elements from a list.
+
+  The selected items shall be put into a result list.
+  """
+  def rnd_select(my_list, n) when n > 0 do
+    rnd_select(my_list, n, [])
+  end
+
+  defp rnd_select(_, 0, acc), do: acc
+
+  defp rnd_select(rest, n, acc) do
+    i = Random.random(1..length(rest))
+    {item, new_rest} = remove_at(rest, i)
+    rnd_select(new_rest, n - 1, [item | acc])
+  end
 end
