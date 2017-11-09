@@ -382,4 +382,11 @@ defmodule Lists do
     {item, new_rest} = remove_at(rest, i)
     rnd_select(new_rest, n - 1, [item | acc])
   end
+
+  @doc """
+  Lotto: Draw N different random numbers from the set 1..M.
+
+  The selected numbers shall be put into a result list.
+  """
+  def lotto(n, m), do: range(1, m) |> rnd_select(n)
 end

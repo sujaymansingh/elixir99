@@ -49,4 +49,10 @@ defmodule ListsTest do
       assert Lists.rnd_select([:a, :b, :c, :d], 2) == [:b, :a]
     end
   end
+
+  test "draw lotto numbers" do
+    with_mocks [{Random, [], [random: fn a.._ -> a end]}] do
+      assert Lists.lotto(6, 49) == [6, 5, 4, 3, 2, 1]
+    end
+  end
 end
