@@ -55,4 +55,11 @@ defmodule ListsTest do
       assert Lists.lotto(6, 49) == [6, 5, 4, 3, 2, 1]
     end
   end
+
+  test "random permutation doesn't add/remove items" do
+    initial_list = [1, 2, 3, 4, 5, 6, 7, 8, 9, :a, :b, :c, :d, :e]
+    shuffled_list = Lists.rnd_permu(initial_list)
+
+    assert Enum.sort(initial_list) == Enum.sort(shuffled_list)
+  end
 end

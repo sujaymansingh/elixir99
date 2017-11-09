@@ -389,4 +389,9 @@ defmodule Lists do
   The selected numbers shall be put into a result list.
   """
   def lotto(n, m), do: range(1, m) |> rnd_select(n)
+
+  @doc """
+  Generate a random permutation of the elements of a list.
+  """
+  def rnd_permu(my_list), do: rnd_select(my_list, length(my_list))
 end
