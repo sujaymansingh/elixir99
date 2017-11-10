@@ -394,4 +394,70 @@ defmodule Lists do
   Generate a random permutation of the elements of a list.
   """
   def rnd_permu(my_list), do: rnd_select(my_list, length(my_list))
+
+  @doc """
+    Return the maximum number in a list.
+
+    iex> Lists.maximum([4, 99, 34])
+    99
+  """
+  def maximum([h | t]), do: maximum([h | t], h)
+
+  defp maximum([], m), do: m
+  defp maximum([h | t], m) when h > m, do: maximum(t, h)
+  defp maximum([_ | t], m), do: maximum(t, m)
+
+  @doc """
+  Generate the combinations of K distinct objects chosen from the N elements of a list
+
+  In how many ways can a committee of 3 be chosen from a group of 12 people?
+  We all know that there are C(12,3) = 220 possibilities (C(N,K) denotes the well-known binomial coefficients).
+  For pure mathematicians, this result may be great.
+  But we want to really generate all the possibilities (via backtracking).
+
+   iex> Lists.combination([:a, :b, :c], 2)
+   [[:a, :b], [:a, :c], [:b, :c]]
+
+   iex> Lists.combination([:a, :b, :c, :d], 3)
+   [[:a, :b, :c], [:a, :b, :d], [:a, :c, :d], [:b, :c, :d]]
+  """
+  def combination(my_list, n) do
+    range(1, length(my_list))
+    |> combination_numbers(n)
+    |> Enum.map(&reverse/1)
+    |> Enum.map(&indices_to_list(&1, my_list))
+  end
+
+  @doc """
+  This produces combinations of numbers, where numbers is a list of consecutive numbers.
+
+  It uses the fact that the numbers are consecutive to optimise without constantly checking for duplicates.
+    iex> Lists.combination_numbers([1, 2, 3], 2)
+    [[2, 1], [3, 1], [3, 2]]
+
+    iex> Lists.combination_numbers([1, 2, 3, 4], 3)
+    [[3, 2, 1], [4, 2, 1], [4, 3, 1], [4, 3, 2]]
+  """
+  def combination_numbers(numbers, 1) do
+    numbers |> Enum.map(&[&1])
+  end
+
+  def combination_numbers(numbers, n) do
+    numbers |> combination_numbers(n - 1) |> combine_perms_and_numbers(numbers, [])
+  end
+
+  defp combine_perms_and_numbers([], _, acc), do: acc
+
+  defp combine_perms_and_numbers([h_perms | t_perms], list_of_numbers, acc) do
+    new_perms =
+      list_of_numbers
+      |> Enum.filter(fn num -> num > maximum(h_perms) end)
+      |> Enum.map(fn num -> [num | h_perms] end)
+
+    combine_perms_and_numbers(t_perms, list_of_numbers, acc ++ new_perms)
+  end
+
+  defp indices_to_list(indices, my_list) do
+    indices |> Enum.map(&element_at(my_list, &1))
+  end
 end
