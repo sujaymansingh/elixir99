@@ -62,4 +62,21 @@ defmodule ListsTest do
 
     assert Enum.sort(initial_list) == Enum.sort(shuffled_list)
   end
+
+  test "grouping into disjoint sets" do
+    groups = Lists.group([:a, :b, :c, :d, :e], [2, 3])
+
+    assert groups == [
+             [[:a, :b], [:c, :d, :e]],
+             [[:a, :c], [:b, :d, :e]],
+             [[:a, :d], [:b, :c, :e]],
+             [[:a, :e], [:b, :c, :d]],
+             [[:b, :c], [:a, :d, :e]],
+             [[:b, :d], [:a, :c, :e]],
+             [[:b, :e], [:a, :c, :d]],
+             [[:c, :d], [:a, :b, :e]],
+             [[:c, :e], [:a, :b, :d]],
+             [[:d, :e], [:a, :b, :c]]
+           ]
+  end
 end

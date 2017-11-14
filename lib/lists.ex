@@ -460,4 +460,66 @@ defmodule Lists do
   defp indices_to_list(indices, my_list) do
     indices |> Enum.map(&element_at(my_list, &1))
   end
+
+  @doc """
+  Group the elements of a set into disjoint subsets.
+
+  Generalize [the solution] in a way that we can specify a list of group sizes and the predicate will
+  return a list of groups.
+
+  i.e. I can call `Lists.group([:a, :b, :c, :d, :e, :f, :g], [3, 2, 2])`
+  """
+  def group(my_list, list_sizes) do
+    list_sizes
+    |> Enum.map(&combination(my_list, &1))
+    |> cartesian_product
+    |> Enum.filter(&disjoint?/1)
+  end
+
+  @doc """
+  Given n lists, return a list of each possible combination of the n.
+
+    iex> Lists.cartesian_product([[:a, :b, :c], [1, 2]])
+    [[:a, 1], [:a, 2], [:b, 1], [:b, 2], [:c, 1], [:c, 2]]
+  """
+  def cartesian_product([h | t]) do
+    list_of_lists = Enum.map(h, &[&1])
+
+    List.foldl(t, list_of_lists, fn flat_list, acc ->
+      mult(acc, flat_list)
+    end)
+  end
+
+  @doc """
+  For each item in the flat_list, add it to the end of each item in list_of_lists.
+
+    iex> Lists.mult([[:a], [:b], [:c]], [1, 2])
+    [[:a, 1], [:a, 2], [:b, 1], [:b, 2], [:c, 1], [:c, 2]]
+  """
+  def mult(list_of_lists, flat_list) do
+    List.foldl(list_of_lists, [], fn inner_list, acc ->
+      combined = Enum.map(flat_list, &[&1 | inner_list]) |> Enum.map(&reverse/1)
+      acc ++ combined
+    end)
+  end
+
+  @doc """
+  Return true if there are no elements that are in more than one list.
+
+    iex> Lists.disjoint?([[:a, :b, :c], [1, 2, 3], [:x, :y, :z]])
+    true
+    iex> Lists.disjoint?([[:a, :b, :c], [1, 2, 3], [:c, :d, :e]])
+    false
+  """
+  def disjoint?(lists) do
+    {unioned_set, concatenated_list} =
+      List.foldl(lists, {MapSet.new(), []}, fn inner_list, {acc_union_set, acc_concatenated_list} ->
+        {
+          MapSet.union(acc_union_set, MapSet.new(inner_list)),
+          acc_concatenated_list ++ inner_list
+        }
+      end)
+
+    length(concatenated_list) == length(MapSet.to_list(unioned_set))
+  end
 end
