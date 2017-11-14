@@ -522,4 +522,23 @@ defmodule Lists do
 
     length(concatenated_list) == length(MapSet.to_list(unioned_set))
   end
+
+  @doc """
+  Sorting a list of lists according to length of sublists
+
+  We suppose that a list (InList) contains elements that are lists themselves. The objective is to sort the elements
+  of InList according to their length.
+  E.g. short lists first, longer lists later, or vice versa.
+
+    iex> Lists.lsort([[:a, :b, :c], [:d, :e], [:f, :g, :h], [:d, :e], [:i, :j, :k, :l], [:m, :n], [:o]])
+    [[:o], [:d, :e], [:d, :e], [:m, :n], [:a, :b, :c], [:f, :g, :h], [:i, :j, :k, :l]]
+  """
+  def lsort(my_list) do
+    my_list |> Enum.sort(&less_than/2)
+  end
+
+  defp less_than([], []), do: false
+  defp less_than(a, b) when length(a) < length(b), do: true
+  defp less_than(a = [ha | _], b = [hb | _]) when length(a) == length(b), do: ha < hb
+  defp less_than(_, _), do: false
 end
