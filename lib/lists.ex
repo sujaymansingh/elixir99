@@ -541,4 +541,42 @@ defmodule Lists do
   defp less_than(a, b) when length(a) < length(b), do: true
   defp less_than(a = [ha | _], b = [hb | _]) when length(a) == length(b), do: ha < hb
   defp less_than(_, _), do: false
+
+  @doc """
+  Sorting a list of lists according to length frequency of sublists
+
+  Again, we suppose that a list (InList) contains elements that are lists themselves.
+  But this time the objective is to sort the elements of InList according to their length frequency;
+  i.e. in the default, where sorting is done ascendingly, lists with rare lengths are placed first,
+  others with a more frequent length come later.
+
+    iex> Lists.lfsort([[:a, :b, :c], [:d, :e], [:f, :g, :h], [:d, :e], [:i, :j, :k, :l], [:m, :n], [:o]])
+    [[:i, :j, :k, :l], [:o], [:a, :b, :c], [:f, :g, :h], [:d, :e], [:d, :e], [:m, :n]]
+  """
+  def lfsort(my_list) do
+    frequencies =
+      List.foldl(my_list, Map.new(), fn sublist, acc ->
+        sublist_length = length(sublist)
+        length_freq = Map.get(acc, sublist_length, 0)
+        Map.put(acc, sublist_length, length_freq + 1)
+      end)
+
+    my_list |> Enum.sort(fn a, b -> less_than(a, b, frequencies) end)
+  end
+
+  defp less_than([], [], _), do: false
+
+  defp less_than(a, b, frequencies) do
+    freq_a = Map.get(frequencies, length(a))
+    freq_b = Map.get(frequencies, length(b))
+
+    if freq_a != freq_b do
+      freq_a < freq_b
+    else
+      # frequencies are the same!
+      [ha | _] = a
+      [hb | _] = b
+      ha < hb
+    end
+  end
 end
