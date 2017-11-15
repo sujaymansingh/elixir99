@@ -88,4 +88,58 @@ defmodule Arithmetic do
   def prime_numbers_in_range(n1, n2) do
     Lists.range(n1, n2) |> Enum.filter(&prime?/1)
   end
+
+  @doc """
+  Goldbach's conjecture.
+
+  Goldbach's conjecture says that every positive even number greater than 2 is the sum of two prime numbers.
+  Example: 28 = 5 + 23.
+  It is one of the most famous facts in number theory that has not been proved to be correct in the general case.
+  It has been numerically confirmed up to very large numbers (much larger than we can go with our
+  ~Prolog~ Elixir system).
+  Write a predicate to find the two prime numbers that sum up to a given even integer.
+
+    iex> Arithmetic.goldbach(28)
+    {5, 23}
+
+    Alternatively, you can specify that the primes *must* be at least a minimum.
+    iex> Arithmetic.goldbach(28, 11)
+    {11, 17}
+
+    Even, if that would remove all prime pairs.
+    iex> Arithmetic.goldbach(28, 19)
+    nil
+  """
+  def goldbach(n, min_prime \\ 2) do
+    if rem(n, 2) != 0 do
+      nil
+    else
+      calculate_goldbach(n, min_prime)
+    end
+  end
+
+  defp calculate_goldbach(n, min_prime) do
+    matching_results =
+      prime_numbers_in_range(1, n)
+      |> calculate_goldbach(n, [])
+      |> Enum.filter(fn {p1, p2} -> p1 >= min_prime and p2 >= min_prime end)
+
+    case matching_results do
+      [] -> nil
+      [h | _] -> h
+    end
+  end
+
+  defp calculate_goldbach([], _, acc), do: Lists.reverse(acc)
+
+  defp calculate_goldbach([h | t], n, acc) do
+    matching_primes = Enum.filter(t, fn x -> h + x == n end)
+
+    if matching_primes == [] do
+      calculate_goldbach(t, n, acc)
+    else
+      [result | _] = matching_primes
+      calculate_goldbach(t, n, [{h, result} | acc])
+    end
+  end
 end
