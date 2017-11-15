@@ -61,4 +61,19 @@ defmodule Arithmetic do
       prime_factors(n, next_p, acc)
     end
   end
+
+  @doc """
+  Determine the prime factors of a given positive integer (2).
+
+  Construct a list containing the prime factors and their multiplicity.
+
+    iex> Arithmetic.prime_factors_mult(315)
+    [{3, 2}, {5, 1}, {7, 1}]
+  """
+  def prime_factors_mult(n) do
+    n
+    |> prime_factors
+    |> Lists.encode()
+    |> Enum.map(fn {a, b} -> {b, a} end)
+  end
 end
