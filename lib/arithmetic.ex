@@ -197,4 +197,30 @@ defmodule Arithmetic do
   """
   def coprime?(a, b) when a < 1 or b < 1, do: false
   def coprime?(a, b), do: gcd(a, b) == 1
+
+  @doc """
+  Calculate Euler's totient function phi(m).
+
+  Euler's so-called totient function phi(m) is defined as
+  the number of positive integers r (1 <= r < m) that are coprime to m.
+
+    iex> Arithmetic.totient_phi(10)
+    4
+
+    # phi(1) is a special case
+    iex> Arithmetic.totient_phi(1)
+    1
+
+    iex> Arithmetic.totient_phi(-1)
+    nil
+  """
+  def totient_phi(n) when n < 1, do: nil
+  def totient_phi(1), do: 1
+  def totient_phi(2), do: 1
+
+  def totient_phi(m) do
+    Lists.range(1, m - 1)
+    |> Enum.filter(&coprime?(&1, m))
+    |> length
+  end
 end
