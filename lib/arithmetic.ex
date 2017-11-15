@@ -142,4 +142,27 @@ defmodule Arithmetic do
       calculate_goldbach(t, n, [{h, result} | acc])
     end
   end
+
+  @doc """
+  A list of Goldbach compositions.
+
+  Given a range of integers by its lower and upper limit,
+  return a list of all even numbers and their Goldbach composition.
+
+    iex> Arithmetic.goldbach_list(9, 20)
+    [{10, 3, 7}, {12, 5, 7}, {14, 3, 11}, {16, 3, 13}, {18, 5, 13}, {20, 3, 17}]
+  """
+  def goldbach_list(n1, n2, min_prime \\ 2) do
+    Lists.range(n1, n2)
+    |> Enum.filter(&(rem(&1, 2) == 0))
+    |> Enum.map(fn n ->
+         result = goldbach(n, min_prime)
+
+         case result do
+           nil -> {n, nil, nil}
+           {p1, p2} -> {n, p1, p2}
+         end
+       end)
+    |> Enum.filter(fn {_, p1, _} -> p1 != nil end)
+  end
 end
