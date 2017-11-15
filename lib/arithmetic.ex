@@ -1,4 +1,8 @@
 defmodule Arithmetic do
+  @moduledoc """
+  See https://sites.google.com/site/prologsite/prolog-problems/2
+  """
+
   use Memoize
 
   @doc """
