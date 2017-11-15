@@ -184,4 +184,16 @@ defmodule Arithmetic do
     remainder = rem(a, b)
     gcd(b, remainder)
   end
+
+  @doc """
+  Determine whether two positive integer numbers are coprime.
+
+  Two numbers are coprime if their greatest common divisor equals 1.
+
+    iex> Arithmetic.coprime?(35, 64)
+    true
+    iex> Arithmetic.coprime?(35, 65)
+    false
+  """
+  def coprime?(a, b), do: gcd(a, b) == 1
 end
