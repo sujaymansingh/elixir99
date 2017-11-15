@@ -16,4 +16,9 @@ defmodule ArithmeticTest do
     assert Arithmetic.prime_factors(0) == []
     assert Arithmetic.prime_factors(-1) == []
   end
+
+  test "Can't work out if negative numbers are coprime" do
+    assert Arithmetic.coprime?(-1, 55) == false
+    assert Arithmetic.coprime?(1, -55) == false
+  end
 end

@@ -195,5 +195,6 @@ defmodule Arithmetic do
     iex> Arithmetic.coprime?(35, 65)
     false
   """
+  def coprime?(a, b) when a < 1 or b < 1, do: false
   def coprime?(a, b), do: gcd(a, b) == 1
 end
