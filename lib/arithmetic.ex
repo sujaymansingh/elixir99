@@ -223,4 +223,36 @@ defmodule Arithmetic do
     |> Enum.filter(&coprime?(&1, m))
     |> length
   end
+
+  @doc """
+  Calculate Euler's totient function phi(m) (2).
+
+  See problem 2.09 for the definition of Euler's totient function.
+
+  If the list of the prime factors of a number m is known in the form of problem 2.03 then the function phi(m)
+  can be efficiently calculated as follows:
+    Let [[p1,m1],[p2,m2],[p3,m3],...] be the list of prime factors (and their multiplicities) of a given number m.
+    Then phi(m) can be calculated with the following formula:
+    phi(m) = (p1 - 1) * p1**(m1 - 1) * (p2 - 1) * p2**(m2 - 1) * (p3 - 1) * p3**(m3 - 1) * ...
+
+    iex> Arithmetic.totient_phi_faster(10)
+    4
+  """
+  def totient_phi_faster(n) when n < 1, do: nil
+  def totient_phi_faster(1), do: 1
+  def totient_phi_faster(2), do: 1
+
+  def totient_phi_faster(n) do
+    List.foldl(prime_factors_mult(n), 1, fn {p, m}, acc ->
+      acc * (p - 1) * pow(p, m - 1)
+    end)
+  end
+
+  @doc """
+  Raise m to the power n.
+
+    iex> Arithmetic.pow(3, 2)
+    9
+  """
+  def pow(m, n), do: :math.pow(m, n) |> round
 end
