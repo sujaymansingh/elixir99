@@ -165,4 +165,23 @@ defmodule Arithmetic do
        end)
     |> Enum.filter(fn {_, p1, _} -> p1 != nil end)
   end
+
+  @doc """
+  Determine the greatest common divisor of two positive integer numbers.
+
+  Use Euclid's algorithm.
+
+    iex> Arithmetic.gcd(36, 63)
+    9
+    iex> Arithmetic.gcd(35, 64)
+    1
+  """
+  def gcd(_, 1), do: 1
+  def gcd(x, 0), do: x
+  def gcd(a, b) when b > a, do: gcd(b, a)
+
+  def gcd(a, b) do
+    remainder = rem(a, b)
+    gcd(b, remainder)
+  end
 end
