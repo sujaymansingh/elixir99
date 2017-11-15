@@ -21,7 +21,8 @@ defmodule Elixir99.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:mock, "~> 0.3.1", only: :test}
+      {:mock, "~> 0.3.1", only: :test},
+      {:memoize, "~> 1.2"}
     ]
   end
 end

@@ -1,4 +1,5 @@
 %{
   "meck": {:hex, :meck, "0.8.8", "eeb3efe811d4346e1a7f65b2738abc2ad73cbe1a2c91b5dd909bac2ea0414fa6", [:rebar3], [], "hexpm"},
+  "memoize": {:hex, :memoize, "1.2.4", "90d5799a0c9b44a02ec814fb45d71b719a06939ed0357f055e93d8935ca1c320", [], [], "hexpm"},
   "mock": {:hex, :mock, "0.3.1", "994f00150f79a0ea50dc9d86134cd9ebd0d177ad60bd04d1e46336cdfdb98ff9", [:mix], [{:meck, "~> 0.8.8", [hex: :meck, repo: "hexpm", optional: false]}], "hexpm"},
 }

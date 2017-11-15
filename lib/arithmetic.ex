@@ -1,4 +1,6 @@
 defmodule Arithmetic do
+  use Memoize
+
   @doc """
   Determine whether a given integer number is prime.
 
@@ -26,7 +28,7 @@ defmodule Arithmetic do
     iex> Arithmetic.next_prime(5000)
     5003
   """
-  def next_prime(n) do
+  defmemo next_prime(n) do
     if prime?(n + 1) do
       n + 1
     else
