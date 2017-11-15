@@ -58,38 +58,38 @@ defmodule Lists do
   @doc """
   Find out whether a list is a palindrome.
 
-    iex> Lists.is_palindrome([:x, :a, :m, :a, :x])
+    iex> Lists.palindrome?([:x, :a, :m, :a, :x])
     true
-    iex> Lists.is_palindrome([:x, :a, :m, :a])
+    iex> Lists.palindrome?([:x, :a, :m, :a])
     false
   """
-  def is_palindrome([]), do: false
-  def is_palindrome(my_list), do: is_palindrome(my_list, [])
+  def palindrome?([]), do: false
+  def palindrome?(my_list), do: palindrome?(my_list, [])
 
-  defp is_palindrome(part_1, part_2) when length(part_1) == length(part_2) do
+  defp palindrome?(part_1, part_2) when length(part_1) == length(part_2) do
     # This is the case when the original list was even numbered in length.
     # Note that we don't have to reverse part_2 because it will already by reversed by
     # the partitioning function.
     part_2 == part_1
   end
 
-  defp is_palindrome(part_1, part_2) when length(part_1) - length(part_2) == 1 do
+  defp palindrome?(part_1, part_2) when length(part_1) - length(part_2) == 1 do
     # This is the case when the original list had an odd number of items.
     # The head of part_1 in this case is the middle item in the list, and doesn't matter.
     [_ | t] = part_1
     t == part_2
   end
 
-  defp is_palindrome(part_1, part_2) when length(part_1) > length(part_2) do
+  defp palindrome?(part_1, part_2) when length(part_1) > length(part_2) do
     # The parts are not in a position yet to compare. So we move an item from part_1 to
     # part_2 and check again.
     # Note that [h | part_2] has the effect of 'reversing' part_2, so when they are in a
     # position to compare, we won't need to reverse anything.
     [h | t] = part_1
-    is_palindrome(t, [h | part_2])
+    palindrome?(t, [h | part_2])
   end
 
-  defp is_palindrome(_, _), do: false
+  defp palindrome?(_, _), do: false
 
   @doc """
   Flatten a nested list structure.

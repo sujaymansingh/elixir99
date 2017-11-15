@@ -17,12 +17,12 @@ defmodule ListsTest do
   end
 
   test "identify palindromes correctly" do
-    assert Lists.is_palindrome([:x, :a, :m, :a, :x]) == true
-    assert Lists.is_palindrome([:x, :a, :a, :x]) == true
+    assert Lists.palindrome?([:x, :a, :m, :a, :x]) == true
+    assert Lists.palindrome?([:x, :a, :a, :x]) == true
 
-    assert Lists.is_palindrome([:x, :a, :m, :a]) == false
-    assert Lists.is_palindrome([:x, :a, :m, :a, :b]) == false
-    assert Lists.is_palindrome([]) == false
+    assert Lists.palindrome?([:x, :a, :m, :a]) == false
+    assert Lists.palindrome?([:x, :a, :m, :a, :b]) == false
+    assert Lists.palindrome?([]) == false
   end
 
   test "splitting should still work if the list is too small" do
