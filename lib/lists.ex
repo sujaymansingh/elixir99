@@ -7,18 +7,26 @@ defmodule Lists do
   Find the last element in a list.
 
     iex> Lists.last([:a, :b, :c, :d])
-    :d
+    {:ok, :d}
+    iex> Lists.last([])
+    {:err, :empty_list}
   """
-  def last([element]), do: element
+  def last([]), do: {:err, :empty_list}
+  def last([element]), do: {:ok, element}
   def last([_ | t]), do: last(t)
 
   @doc """
   Find the last but one element in a list.
 
     iex> Lists.last_but_one([:a, :b, :c, :d])
-    :c
+    {:ok, :c}
+    iex> Lists.last_but_one([:a])
+    {:err, :insufficient_length}
+    iex> Lists.last_but_one([])
+    {:err, :insufficient_length}
   """
-  def last_but_one([penultimate, _ultimate]), do: penultimate
+  def last_but_one(x) when length(x) < 2, do: {:err, :insufficient_length}
+  def last_but_one([penultimate, _ultimate]), do: {:ok, penultimate}
   def last_but_one([_ | t]), do: last_but_one(t)
 
   @doc """
