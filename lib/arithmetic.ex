@@ -56,16 +56,14 @@ defmodule Arithmetic do
 
   defp prime_factors(1, _, acc), do: Lists.reverse(acc)
 
-  defp prime_factors(n, p, acc) do
-    remainder = rem(n, p)
+  defp prime_factors(n, p, acc) when rem(n, p) == 0 do
+    next_n = div(n, p)
+    prime_factors(next_n, p, [p | acc])
+  end
 
-    if remainder == 0 do
-      next_n = div(n, p)
-      prime_factors(next_n, p, [p | acc])
-    else
-      next_p = next_prime(p)
-      prime_factors(n, next_p, acc)
-    end
+  defp prime_factors(n, p, acc) do
+    next_p = next_prime(p)
+    prime_factors(n, next_p, acc)
   end
 
   @doc """
