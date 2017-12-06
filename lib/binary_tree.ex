@@ -10,7 +10,7 @@ defmodule BinaryTree do
   """
 
   @doc """
-  Return true iff if the argument is a term that represents a tree.
+  Check whether a given term represents a binary tree
 
     iex> BinaryTree.istree?({:a, {:b, nil, nil}, nil})
     true
