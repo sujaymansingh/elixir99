@@ -17,6 +17,18 @@ defmodule LogicTest do
            ]
   end
 
+  test "getting huffman codes" do
+    chars_with_frequencies = [{:a, 10}, {:b, 15}, {:c, 30}, {:d, 16}, {:e, 29}]
+
+    assert Logic.get_huffman_codes(chars_with_frequencies) == [
+             {:d, "00"},
+             {:a, "010"},
+             {:b, "011"},
+             {:e, "10"},
+             {:c, "11"}
+           ]
+  end
+
   test "traversing a tree" do
     n3 = %Node{label: :three, value: 3}
     n4 = %Node{label: :four, value: 4}

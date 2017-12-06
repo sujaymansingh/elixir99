@@ -71,6 +71,52 @@ defmodule Logic do
     def leaf?(_), do: false
   end
 
+  @doc """
+  Given a list of (char, frequency) pairs, return a list of (char, code) pairs.
+
+  https://en.wikipedia.org/wiki/Huffman_coding
+  """
+  def get_huffman_codes(chars_with_frequencies) do
+    initial_nodes =
+      Enum.map(chars_with_frequencies, fn {char, freq} ->
+        %Node{label: char, value: freq}
+      end)
+
+    tree = build_tree(initial_nodes)
+
+    depth_first_search(tree, [], fn acc, node, trail ->
+      code = convert_trail_to_code(trail)
+      [{node.label, code} | acc]
+    end)
+    |> Enum.reverse()
+  end
+
+  defp build_tree([node]), do: node
+
+  defp build_tree(nodes) do
+    [smallest, next_smallest | rest] = Enum.sort(nodes, fn n1, n2 -> n1.value < n2.value end)
+
+    new_node = %Node{
+      label: nil,
+      value: smallest.value + next_smallest.value,
+      left_child: smallest,
+      right_child: next_smallest
+    }
+
+    build_tree([new_node | rest])
+  end
+
+  defp convert_trail_to_code(trail_to_root) do
+    trail_to_root
+    |> Enum.reverse()
+    |> Enum.map(fn {_, direction} -> direction end)
+    |> Enum.map(fn
+         :left -> '0'
+         :right -> '1'
+       end)
+    |> to_string()
+  end
+
   def depth_first_search(root, func, initial_acc) do
     visit(root, [], func, initial_acc)
   end
