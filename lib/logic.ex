@@ -63,4 +63,54 @@ defmodule Logic do
 
     gray(n, i + 1, first_part ++ second_part)
   end
+
+  defmodule Node do
+    defstruct label: nil, value: nil, left_child: nil, right_child: nil
+
+    def leaf?(%Node{left_child: nil, right_child: nil}), do: true
+    def leaf?(_), do: false
+  end
+
+  def depth_first_search(root, func, initial_acc) do
+    visit(root, [], func, initial_acc)
+  end
+
+  defp visit(node, trail, acc, func) do
+    if Node.leaf?(node) do
+      # First, let's work out the new acc
+      new_acc = func.(acc, node, trail)
+
+      [{parent, direction} | t] = trail
+
+      case direction do
+        :left ->
+          # We now can visit the right child, as in our case, any non-leaf node *will* have
+          # both children.
+          visit(parent.right_child, [{parent, :right} | t], new_acc, func)
+        :right ->
+          # We go back up, indicating that we came from the right child.
+          backtrack({parent, :right}, t, new_acc, func)
+      end
+    else
+      visit(node.left_child, [{node, :left} | trail], acc, func)
+    end
+  end
+
+  defp backtrack({_, :right}, [], acc, _) do
+    # Right, the lack of trail means that we're back at the root.
+    # And the fact that we arrived from the right means that we've done every node!
+    acc
+  end
+
+  defp backtrack({_, :right}, [h | t], acc, func) do
+    # We came back up via the right child, so we must have visited both children.
+    # That's why we go back up to the parent.
+    backtrack(h, t, acc, func)
+  end
+
+  defp backtrack({node, :left}, trail, acc, func) do
+    # We came back up from the left child, so we must have finished the entire left side.
+    # Thus we make a move on the right child.
+    visit(node.right_child, [{node, :right} | trail], acc, func)
+  end
 end
