@@ -31,4 +31,36 @@ defmodule Logic do
     |> Lists.cartesian_product()
     |> Enum.map(fn inputs -> inputs ++ [f.(inputs)] end)
   end
+
+  @doc """
+  Return an n-bit Gray code.
+
+  An n-bit Gray code is a sequence of n-bit strings constructed according to certain rules. For example,
+
+    iex> Logic.gray(1)
+    ["0", "1"]
+    iex> Logic.gray(2)
+    ["00", "01", "11", "10"]
+    iex> Logic.gray(3)
+    ["000", "001", "011", "010", "110", "111", "101", "100"]
+  """
+  def gray(n) when n > 0 do
+    gray(n, 1, ['0', '1'])
+    |> Enum.map(fn x -> to_string([x]) end)
+  end
+
+  defp gray(n, n, current), do: current
+
+  defp gray(n, i, current) do
+    first_part =
+      current
+      |> Enum.map(fn x -> ['0' | x] end)
+
+    second_part =
+      current
+      |> Enum.reverse()
+      |> Enum.map(fn x -> ['1' | x] end)
+
+    gray(n, i + 1, first_part ++ second_part)
+  end
 end
