@@ -30,4 +30,24 @@ defmodule BinaryTreeTest do
     assert length(actual) == length(expected)
     assert MapSet.new(actual) == MapSet.new(expected)
   end
+
+  test "we can spot symmetric binary trees" do
+    symmetric =
+      BinaryTree.tree(
+        :a,
+        BinaryTree.tree(:b, nil, BinaryTree.tree(:d)),
+        BinaryTree.tree(:c, BinaryTree.tree(:e), nil)
+      )
+
+    assert BinaryTree.symmetric?(symmetric) == true
+
+    asymmetric =
+      BinaryTree.tree(
+        :a,
+        BinaryTree.tree(:b, nil, BinaryTree.tree(:d)),
+        BinaryTree.tree(:c, nil, BinaryTree.tree(:e))
+      )
+
+    assert BinaryTree.symmetric?(asymmetric) == false
+  end
 end

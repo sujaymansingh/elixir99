@@ -61,4 +61,28 @@ defmodule BinaryTree do
       {default_element, possible_left, possible_right}
     end
   end
+
+  def tree(root_element, left_child, right_child), do: {root_element, left_child, right_child}
+  def tree(root_element), do: {root_element, nil, nil}
+
+  @doc """
+  Symmetric binary trees
+
+  Let us call a binary tree symmetric if you can draw a vertical line through the root node and
+  then the right subtree is the mirror image of the left subtree.
+  """
+  def symmetric?({_, left, right}) do
+    mirror?(left, right)
+  end
+
+  @doc """
+  Return true if the two tree structures are mirror images (root elements are ignored)
+  """
+  def mirror?(nil, nil), do: true
+  def mirror?(_, nil), do: false
+  def mirror?(nil, _), do: false
+
+  def mirror?({_, left_a, right_a}, {_, left_b, right_b}) do
+    mirror?(left_a, right_b) and mirror?(right_a, left_b)
+  end
 end
