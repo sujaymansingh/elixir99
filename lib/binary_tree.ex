@@ -127,12 +127,4 @@ defmodule BinaryTree do
     cbal_tree(n, default_element)
     |> Enum.filter(&symmetric?/1)
   end
-
-  @doc """
-  Construct height-balanced binary trees
-
-  In a height-balanced binary tree, the following property holds for every node:
-  The height of its left subtree and the height of its right subtree are almost equal,
-  which means their difference is not greater than one.
-  """
 end
