@@ -56,4 +56,9 @@ defmodule BinaryTreeTest do
     assert BinaryTree.add({5, nil, nil}, 3) == {5, {3, nil, nil}, nil}
     assert BinaryTree.add({5, nil, {7, nil, nil}}, 6) == {5, nil, {7, {6, nil, nil}, nil}}
   end
+
+  test "our symmetric? function" do
+    assert BinaryTree.test_symmetric([5, 3, 18, 1, 4, 12, 21]) == true
+    assert BinaryTree.test_symmetric([3, 2, 5, 7, 4]) == false
+  end
 end

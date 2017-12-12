@@ -107,4 +107,9 @@ defmodule BinaryTree do
   def add({root, left, nil}, num) when num > root, do: {root, left, tree(num)}
   def add({root, left, right}, num) when num <= root, do: {root, add(left, num), right}
   def add({root, left, right}, num) when num > root, do: {root, left, add(right, num)}
+
+  @doc """
+  Return true if the binary tree constructed from the given numbers is symmetric
+  """
+  def test_symmetric(numbers), do: construct(numbers) |> symmetric?
 end
