@@ -112,4 +112,23 @@ defmodule BinaryTree do
   Return true if the binary tree constructed from the given numbers is symmetric
   """
   def test_symmetric(numbers), do: construct(numbers) |> symmetric?
+
+  @doc """
+  Generate-and-test paradigm
+
+  Apply the generate-and-test paradigm to construct all symmetric,
+  completely balanced binary trees with a given number of nodes.
+  """
+  def sym_cbal_trees(n, default_element) do
+    cbal_tree(n, default_element)
+    |> Enum.filter(&symmetric?/1)
+  end
+
+  @doc """
+  Construct height-balanced binary trees
+
+  In a height-balanced binary tree, the following property holds for every node:
+  The height of its left subtree and the height of its right subtree are almost equal,
+  which means their difference is not greater than one.
+  """
 end

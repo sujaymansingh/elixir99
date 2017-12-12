@@ -61,4 +61,14 @@ defmodule BinaryTreeTest do
     assert BinaryTree.test_symmetric([5, 3, 18, 1, 4, 12, 21]) == true
     assert BinaryTree.test_symmetric([3, 2, 5, 7, 4]) == false
   end
+
+  test "constructing all symmetric, completely balances trees with given number of nodes" do
+    trees = BinaryTree.sym_cbal_trees(5, :x)
+
+    assert MapSet.new(trees) ==
+             MapSet.new([
+               {:x, {:x, nil, {:x, nil, nil}}, {:x, {:x, nil, nil}, nil}},
+               {:x, {:x, {:x, nil, nil}, nil}, {:x, nil, {:x, nil, nil}}}
+             ])
+  end
 end
