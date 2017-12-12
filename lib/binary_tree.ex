@@ -28,6 +28,8 @@ defmodule BinaryTree do
   The number of nodes in its left subtree and the number of nodes in its right subtree are almost 
   equal, which means their difference is not greater than one.
   """
+  def cbal_tree(n), do: cbal_tree(n, :x)
+
   def cbal_tree(0, _), do: [nil]
 
   def cbal_tree(n, default_element) do
@@ -119,6 +121,8 @@ defmodule BinaryTree do
   Apply the generate-and-test paradigm to construct all symmetric,
   completely balanced binary trees with a given number of nodes.
   """
+  def sym_cbal_trees(n), do: sym_cbal_trees(n, :x)
+
   def sym_cbal_trees(n, default_element) do
     cbal_tree(n, default_element)
     |> Enum.filter(&symmetric?/1)
