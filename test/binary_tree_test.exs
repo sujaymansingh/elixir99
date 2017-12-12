@@ -50,4 +50,10 @@ defmodule BinaryTreeTest do
 
     assert BinaryTree.symmetric?(asymmetric) == false
   end
+
+  test "adding a number to a binary tree" do
+    assert BinaryTree.add({5, nil, nil}, 7) == {5, nil, {7, nil, nil}}
+    assert BinaryTree.add({5, nil, nil}, 3) == {5, {3, nil, nil}, nil}
+    assert BinaryTree.add({5, nil, {7, nil, nil}}, 6) == {5, nil, {7, {6, nil, nil}, nil}}
+  end
 end

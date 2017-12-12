@@ -64,6 +64,7 @@ defmodule BinaryTree do
 
   def tree(root_element, left_child, right_child), do: {root_element, left_child, right_child}
   def tree(root_element), do: {root_element, nil, nil}
+  def tree(), do: nil
 
   @doc """
   Symmetric binary trees
@@ -85,4 +86,25 @@ defmodule BinaryTree do
   def mirror?({_, left_a, right_a}, {_, left_b, right_b}) do
     mirror?(left_a, right_b) and mirror?(right_a, left_b)
   end
+
+  @doc """
+  Binary search trees (dictionaries)
+
+  Write a predicate to construct a binary search tree from a list of integer numbers.
+
+      iex> BinaryTree.construct([3, 2, 5, 7, 1])
+      {3, {2, {1, nil, nil}, nil}, {5, nil, {7, nil, nil}}}
+  """
+  def construct(numbers) do
+    Enum.reduce(numbers, tree(), fn num, current_tree -> add(current_tree, num) end)
+  end
+
+  @doc """
+  Add a number to the relevant binary tree (and in the correct place)
+  """
+  def add(nil, num), do: tree(num)
+  def add({root, nil, right}, num) when num <= root, do: {root, tree(num), right}
+  def add({root, left, nil}, num) when num > root, do: {root, left, tree(num)}
+  def add({root, left, right}, num) when num <= root, do: {root, add(left, num), right}
+  def add({root, left, right}, num) when num > root, do: {root, left, add(right, num)}
 end
